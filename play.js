@@ -16,24 +16,18 @@ module.exports = {
         if (! voice_channel) 
             return message.channel.send('You need to be in a voice channel to execute this command!')
 
-
         
-
 
         const permissions = voice_channel.permissions(message.client.user)
         if (! permissions.has('CONNECT')) 
             return message.channel.send("You don't have permissions to connect to channel")
 
-
         
-
 
         if (permissions.has('SPEAK')) 
             return message.channel.send("You don't have permissions to speak in the channel")
 
-
         
-
 
         const server_queue = queue.get(message.guild.id)
 
@@ -41,9 +35,7 @@ module.exports = {
             if (!args.length) 
                 return message.channel.send('You need to send the second argument')
 
-
             
-
 
             let song = {}
 
@@ -100,11 +92,7 @@ module.exports = {
             skip_song(message, server_queue)
          else if (cmd === 'stop') 
             stop_song(message, server_queue)
-
-
         
-
-
     }
 }
 
@@ -136,6 +124,18 @@ const skip_song = (message, server_queue) => {
 
     
 
+    if (!server_queue) 
+        return message.channel.send('There are no songs in queue')
+
+    
+
+    server_queue.connection.dispatcher.end()
 }
 
-const stop_song = (message, server_queue) => {}
+const stop_song = (message, server_queue) => {
+    if (!message.member.voice.channel) 
+        return message.channel.send('You need to be in a voice channel')
+    
+    server_queue.songs = []
+    server_queue.connection.dispatcher.end()
+}
