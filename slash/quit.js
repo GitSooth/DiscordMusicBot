@@ -12,7 +12,7 @@ module.exports = {
 
         
 
-        queue.destroy()
-        await interaction.editReply("Bye!")
+        //queue.destroy()
+        //await interaction.editReply("Bye!")
     }
 }
